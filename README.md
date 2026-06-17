@@ -1,5 +1,10 @@
 # oulun-budjetti
-Oulun kaupungin tilinpäätösten visualisointia
+
+Oulun kaupungin tilinpäätösten visualisointia Sankey-kaavioina.
+
+Tilinpäätösten tietojen käsittelyssä on käytetty tekoälyä, ja tiedot voivat sisältää virheitä.
+
+Jos huomaat virheitä datassa, voit raportoida ne tekemällä issuen tähän repoon.
 
 ## Tietojen lisääminen uudelle vuodelle
 
