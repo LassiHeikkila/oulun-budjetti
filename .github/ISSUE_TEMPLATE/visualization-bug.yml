@@ -1,0 +1,57 @@
+name: Virhe visualisoinnissa
+description: Ilmoita ongelmasta kaaviossa, käyttöliittymässä tai näkymän toiminnassa.
+title: "[Visualisointi]: "
+labels:
+  - bug
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Kiitos ilmoituksesta. Kuvaa mahdollisimman tarkasti, mitä näit ja mitä odotit tapahtuvan.
+  - type: textarea
+    id: what-happened
+    attributes:
+      label: Mitä tapahtui?
+      description: Kerro lyhyesti ongelma visualisoinnissa.
+      placeholder: "Esimerkiksi: Sankey-näkymä ei lataudu Safari-selaimessa."
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: Mitä odotit tapahtuvan?
+      placeholder: "Esimerkiksi: Kaavion pitäisi näkyä normaalisti ja vuositiedot pitäisi vaihtua."
+    validations:
+      required: true
+  - type: input
+    id: page
+    attributes:
+      label: Sivun osoite tai näkymä
+      description: Jos mahdollista, lisää tarkka URL tai kerro missä näkymässä ongelma näkyy.
+      placeholder: https://...
+  - type: dropdown
+    id: browser
+    attributes:
+      label: Selain
+      options:
+        - Chrome
+        - Firefox
+        - Safari
+        - Edge
+        - Muu
+  - type: textarea
+    id: steps
+    attributes:
+      label: Vaiheet ongelman toistamiseen
+      description: Listaa lyhyet vaiheet, joilla ongelman saa esiin.
+      placeholder: |
+        1. Avaa sivu
+        2. Vaihda vuosi 2025
+        3. Klikkaa solmua...
+    validations:
+      required: true
+  - type: textarea
+    id: extra
+    attributes:
+      label: Lisätiedot
+      description: "Lisää kuva, selaimen konsolivirhe tai muu hyödyllinen tieto."

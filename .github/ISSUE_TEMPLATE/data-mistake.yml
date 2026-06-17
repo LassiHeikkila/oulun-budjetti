@@ -1,0 +1,44 @@
+name: Virhe datassa
+description: Ilmoita, jos luvut, lähteet tai luokittelu näyttävät vääriltä.
+title: "[Data]: "
+labels:
+  - data
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Kiitos ilmoituksesta. Kerro mahdollisimman tarkasti, mikä tieto näyttää väärältä ja mihin lähteeseen viittaat.
+  - type: textarea
+    id: issue
+    attributes:
+      label: Mikä tieto näyttää väärältä?
+      description: Kuvaa kyseinen luku, nimi, lähde tai luokittelu.
+      placeholder: "Esimerkiksi: Vuoden 2025 toimintatuotot eivät täsmää tilinpäätöksen sivuun 61."
+    validations:
+      required: true
+  - type: input
+    id: location
+    attributes:
+      label: Missä kohdassa dataa?
+      description: Lisää tiedoston nimi, solmu tai näkymä, jos tiedät sen.
+      placeholder: data/oulu-talous-2025.json
+    validations:
+      required: true
+  - type: input
+    id: source
+    attributes:
+      label: Lähde tai viite
+      description: Lisää tilinpäätöksen sivu, taulukko tai muu lähde, johon vertaat.
+      placeholder: "Tilinpäätös s. 61"
+  - type: textarea
+    id: expected
+    attributes:
+      label: Mikä olisi oikea arvo tai luokittelu?
+      placeholder: "Esimerkiksi: Arvon pitäisi olla 198,4 milj. €."
+    validations:
+      required: true
+  - type: textarea
+    id: proof
+    attributes:
+      label: Perustelut tai lisähuomiot
+      description: Voit liittää laskelman, linkin tai kuvakaappauksen.
