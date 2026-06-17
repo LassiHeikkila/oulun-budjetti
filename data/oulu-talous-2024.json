@@ -1,0 +1,154 @@
+{
+    "vuosi": 2024,
+    "yksikko": "milj. €",
+    "otsikko": "Mistä rahat tulevat ja mihin ne menevät",
+    "kuvaus": "Koko rahankäyttö vuonna 2024: kaikki rahanlähteet vasemmalla, kaikki käyttö oikealla. Molemmat puolet täsmäävät, koska mukana ovat myös lainat, investoinnit ja kassavarojen muutos.",
+    "tulot": [
+        {
+            "id": "verot",
+            "nimi": "Verotulot",
+            "arvo": 505.8,
+            "luokka": "tulo",
+            "lahde": "Tuloslaskelma (Verotulot)"
+        },
+        {
+            "id": "toimtuotot",
+            "nimi": "Toimintatuotot",
+            "arvo": 202.1,
+            "luokka": "tulo",
+            "lahde": "Tuloslaskelma / Ulkoiset toimintatuotot s.55",
+            "lapset": [
+                {
+                    "id": "tt_myynti",
+                    "nimi": "Myyntituotot",
+                    "arvo": 67.9,
+                    "lahde": "Ulkoiset toimintatuotot s.55"
+                },
+                {
+                    "id": "tt_vuokra",
+                    "nimi": "Vuokratuotot",
+                    "arvo": 62.6,
+                    "lahde": "Ulkoiset toimintatuotot s.55"
+                },
+                {
+                    "id": "tt_maksu",
+                    "nimi": "Maksutuotot",
+                    "arvo": 36.5,
+                    "lahde": "Ulkoiset toimintatuotot s.55"
+                },
+                {
+                    "id": "tt_tuet",
+                    "nimi": "Tuet ja avustukset",
+                    "arvo": 22.6,
+                    "lahde": "Ulkoiset toimintatuotot s.55"
+                },
+                {
+                    "id": "tt_muut",
+                    "nimi": "Muut tuotot",
+                    "arvo": 12.4,
+                    "lahde": "Ulkoiset toimintatuotot s.55"
+                }
+            ]
+        },
+        {
+            "id": "valtio",
+            "nimi": "Valtionosuudet",
+            "arvo": 116.6,
+            "luokka": "tulo",
+            "lahde": "Tuloslaskelma (Valtionosuudet)"
+        },
+        {
+            "id": "rahoitus",
+            "nimi": "Rahoitustuotot",
+            "arvo": 33.8,
+            "luokka": "tulo",
+            "lahde": "Tuloslaskelma (korkotuotot 16,0 + muut 17,8, brutto)"
+        },
+        {
+            "id": "lyhytlaina",
+            "nimi": "Lyhytaikaisten lainojen lisäys",
+            "arvo": 33.4,
+            "luokka": "rahoitus",
+            "lahde": "Rahoituslaskelma (lyhytaikaisten lainojen muutos, positiivinen)"
+        },
+        {
+            "id": "myynti",
+            "nimi": "Omaisuuden myynti ja rah.osuudet",
+            "arvo": 27.0,
+            "luokka": "tulo",
+            "lahde": "Rahoituslaskelma (luovutustulot 23,6 + rahoitusosuudet 3,4)"
+        },
+        {
+            "id": "antolaina_in",
+            "nimi": "Antolainojen takaisinmaksut",
+            "arvo": 2.4,
+            "luokka": "tulo",
+            "lahde": "Rahoituslaskelma (antolainasaamisten vähennys)"
+        },
+        {
+            "id": "kassa",
+            "nimi": "Kassavarojen väheneminen ja muut maksuvalmius",
+            "arvo": 80.6,
+            "luokka": "kassa",
+            "lahde": "Rahoituslaskelma (tasaa virrat: rahavarojen + maksuvalmiuden muutos)"
+        }
+    ],
+    "menot": [
+        {
+            "id": "henk",
+            "nimi": "Henkilöstökulut",
+            "arvo": 381.1,
+            "luokka": "meno",
+            "lahde": "Ulkoiset toimintakulut s.55"
+        },
+        {
+            "id": "palv",
+            "nimi": "Palvelujen ostot",
+            "arvo": 252.5,
+            "luokka": "meno",
+            "lahde": "Ulkoiset toimintakulut s.55"
+        },
+        {
+            "id": "avust",
+            "nimi": "Avustukset",
+            "arvo": 50.5,
+            "luokka": "meno",
+            "lahde": "Ulkoiset toimintakulut s.55"
+        },
+        {
+            "id": "aineet",
+            "nimi": "Aineet ja tarvikkeet",
+            "arvo": 50.9,
+            "luokka": "meno",
+            "lahde": "Ulkoiset toimintakulut s.55 (aineet, tarvikkeet ja tavarat)"
+        },
+        {
+            "id": "vuokrat",
+            "nimi": "Vuokrat ja muut",
+            "arvo": 27.4,
+            "luokka": "meno",
+            "lahde": "Ulkoiset toimintakulut s.55 (vuokrakulut 24,7 + muut 2,7)"
+        },
+        {
+            "id": "invest",
+            "nimi": "Investoinnit",
+            "arvo": 199.2,
+            "luokka": "rahoitus",
+            "lahde": "Rahoituslaskelma (investointimenot)"
+        },
+        {
+            "id": "korkokulut",
+            "nimi": "Korko- ja rahoituskulut",
+            "arvo": 16.9,
+            "luokka": "meno",
+            "lahde": "Tuloslaskelma (korkokulut 16,6 + muut 0,3)"
+        },
+        {
+            "id": "lyhennys",
+            "nimi": "Lainojen lyhennykset",
+            "arvo": 23.2,
+            "luokka": "rahoitus",
+            "lahde": "Rahoituslaskelma (pitkäaikaisten lainojen vähennys)"
+        }
+    ]
+}
