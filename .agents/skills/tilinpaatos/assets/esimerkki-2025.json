@@ -1,0 +1,351 @@
+{
+  "vuosi": 2025,
+  "yksikko": "milj. €",
+  "otsikko": "Mistä rahat tulevat ja mihin ne menevät",
+  "kuvaus": "Koko rahankäyttö vuonna 2025: kaikki rahanlähteet vasemmalla, kaikki käyttö oikealla. Molemmat puolet täsmäävät, koska mukana ovat myös lainat, investoinnit ja kassavarojen muutos.",
+  "tulot": [
+    {
+      "id": "verot",
+      "nimi": "Verotulot",
+      "luokka": "tulo",
+      "lahde": "Tuloslaskelma s.51 / Verotulot-taulukko s.231",
+      "lapset": [
+        {
+          "id": "verot_kunnallis",
+          "nimi": "Kunnallisvero",
+          "arvo": 394.0,
+          "lahde": "Verotulot-taulukko s.231"
+        },
+        {
+          "id": "verot_kiinteisto",
+          "nimi": "Kiinteistövero",
+          "arvo": 73.9,
+          "lahde": "Verotulot-taulukko s.231"
+        },
+        {
+          "id": "verot_yhteiso",
+          "nimi": "Yhteisövero",
+          "arvo": 41.0,
+          "lahde": "Verotulot-taulukko s.231"
+        }
+      ],
+      "arvo": 508.9
+    },
+    {
+      "id": "toimtuotot",
+      "nimi": "Toimintatuotot",
+      "luokka": "tulo",
+      "lahde": "Tuloslaskelma s.51 / Ulkoiset toimintatuotot s.61",
+      "lapset": [
+        {
+          "id": "tt_myynti",
+          "nimi": "Myyntituotot",
+          "arvo": 73.5,
+          "lahde": "Ulkoiset toimintatuotot s.61"
+        },
+        {
+          "id": "tt_vuokra",
+          "nimi": "Vuokratuotot",
+          "arvo": 64.9,
+          "lahde": "Ulkoiset toimintatuotot s.61"
+        },
+        {
+          "id": "tt_maksu",
+          "nimi": "Maksutuotot",
+          "arvo": 35.0,
+          "lahde": "Ulkoiset toimintatuotot s.61"
+        },
+        {
+          "id": "tt_tuet",
+          "nimi": "Tuet ja avustukset",
+          "arvo": 19.3,
+          "lahde": "Ulkoiset toimintatuotot s.61"
+        },
+        {
+          "id": "tt_muut",
+          "nimi": "Muut tuotot",
+          "arvo": 10.2,
+          "lahde": "Ulkoiset toimintatuotot s.61"
+        }
+      ],
+      "arvo": 202.9
+    },
+    {
+      "id": "valtio",
+      "nimi": "Valtionosuudet",
+      "arvo": 142.1,
+      "luokka": "tulo",
+      "lahde": "Tuloslaskelma s.51"
+    },
+    {
+      "id": "rahoitus",
+      "nimi": "Rahoitustuotot",
+      "arvo": 30.8,
+      "luokka": "tulo",
+      "lahde": "Rahoituslaskelma s.66 (brutto)"
+    },
+    {
+      "id": "laina",
+      "nimi": "Lainanotto",
+      "arvo": 150.0,
+      "luokka": "rahoitus",
+      "lahde": "Rahoituslaskelma s.66 (pitkäaikaisten lainojen lisäys)"
+    },
+    {
+      "id": "myynti",
+      "nimi": "Omaisuuden myynti ja rah.osuudet",
+      "arvo": 14.6,
+      "luokka": "tulo",
+      "lahde": "Rahoituslaskelma s.66"
+    },
+    {
+      "id": "antolaina_in",
+      "nimi": "Antolainojen takaisinmaksut",
+      "arvo": 3.5,
+      "luokka": "tulo",
+      "lahde": "Rahoituslaskelma s.66"
+    },
+    {
+      "id": "kassa",
+      "nimi": "Kassavarojen väheneminen",
+      "arvo": 15.1,
+      "luokka": "kassa",
+      "lahde": "Rahoituslaskelma s.66 (tasaa virrat)"
+    }
+  ],
+  "menot": [
+    {
+      "id": "henk",
+      "nimi": "Henkilöstökulut",
+      "luokka": "meno",
+      "lahde": "Tuloslaskelma s.51 / Henkilöstökust. s.28-29",
+      "lapset": [
+        {
+          "id": "palkat",
+          "nimi": "Palkat ja palkkiot",
+          "luokka": "meno",
+          "lahde": "Henkilöstökust. s.29",
+          "lapset": [
+            {
+              "id": "palkat_perusop",
+              "nimi": "Perusopetus ja nuoriso",
+              "arvo": 108.6,
+              "arvio": true,
+              "lahde": "htv-suhde: sivistys 288,3 s.57; htv 2557 s.235"
+            },
+            {
+              "id": "palkat_varhais",
+              "nimi": "Varhaiskasvatus",
+              "arvo": 89.2,
+              "arvio": true,
+              "lahde": "htv-suhde: htv 2100 s.235"
+            },
+            {
+              "id": "palkat_muusiv",
+              "nimi": "Muu sivistys (lukio, kulttuuri ym.)",
+              "arvo": 35.0,
+              "arvio": true,
+              "lahde": "htv-suhde: htv 824 s.235"
+            },
+            {
+              "id": "palkat_muuperus",
+              "nimi": "Muu peruskunta (yhdyskunta, hallinto ym.)",
+              "arvo": 44.7,
+              "arvio": true,
+              "lahde": "peruskunta 343,7 − sivistys 288,3 s.56-57"
+            },
+            {
+              "id": "palkat_liike",
+              "nimi": "Liikelaitokset",
+              "arvo": 39.2,
+              "arvio": true,
+              "lahde": "liikelaitosten henkilöstökulut 48,5 s.56"
+            }
+          ],
+          "arvo": 316.6
+        },
+        {
+          "id": "elake",
+          "nimi": "Eläkekulut",
+          "arvo": 65.9,
+          "lahde": "Henkilöstökust. s.29"
+        },
+        {
+          "id": "sivukulut",
+          "nimi": "Muut henkilösivukulut",
+          "arvo": 9.7,
+          "lahde": "Henkilöstökust. s.29"
+        }
+      ],
+      "arvo": 392.2
+    },
+    {
+      "id": "palv",
+      "nimi": "Palvelujen ostot",
+      "luokka": "meno",
+      "lahde": "Tuloslaskelma s.62 / liite 9 s.287",
+      "lapset": [
+        {
+          "id": "palv_muut",
+          "nimi": "Muiden palvelujen ostot",
+          "luokka": "meno",
+          "lahde": "Liite 9 s.287",
+          "lapset": [
+            {
+              "id": "palv_muut_liike",
+              "nimi": "Liikelaitokset (Tilapalvelut, Vesi, Business Oulu ym.)",
+              "arvo": 75.9,
+              "arvio": true,
+              "lahde": "liikelaitosten liitetiedot s.304 (skaalattu)"
+            },
+            {
+              "id": "palv_muut_yhd",
+              "nimi": "Yhdyskunta (rakentaminen, kunnossapito)",
+              "arvo": 50.2,
+              "arvio": true,
+              "lahde": "yhdyskuntalautakunta käyttötalous"
+            },
+            {
+              "id": "palv_muut_siv",
+              "nimi": "Sivistyspalvelut",
+              "arvo": 44.0,
+              "arvio": true,
+              "lahde": "sivistyslautakunta muut palv. 66,2 (jaettu)"
+            },
+            {
+              "id": "palv_muut_hall",
+              "nimi": "Hallinto, ICT ja muut",
+              "arvo": 13.3,
+              "arvio": true,
+              "lahde": "suuntaa-antava"
+            },
+            {
+              "id": "palv_muut_hykl",
+              "nimi": "Hyvinvointi, kulttuuri ja liikunta",
+              "arvo": 11.8,
+              "arvio": true,
+              "lahde": "HYKL-lautakunta käyttötalous"
+            }
+          ],
+          "arvo": 195.2
+        },
+        {
+          "id": "palv_asiakas",
+          "nimi": "Asiakaspalvelujen ostot",
+          "luokka": "meno",
+          "lahde": "Liite 9 s.287",
+          "lapset": [
+            {
+              "id": "palv_as_seteli",
+              "nimi": "Palvelusetelit",
+              "arvo": 31.2,
+              "lahde": "sivistyslautakunta palvelusetelit"
+            },
+            {
+              "id": "palv_as_muut",
+              "nimi": "Muut asiakaspalvelut",
+              "arvo": 28.2,
+              "lahde": "liite 9 (asiakaspalvelut 59,4 − palvelusetelit)"
+            }
+          ],
+          "arvo": 59.4
+        }
+      ],
+      "arvo": 254.7
+    },
+    {
+      "id": "avust",
+      "nimi": "Avustukset",
+      "luokka": "meno",
+      "lahde": "Toimintakulut kululaji s.62",
+      "lapset": [
+        {
+          "id": "avust_tyott",
+          "nimi": "Työttömyysturvan kuntaosuus",
+          "arvo": 37.2,
+          "lahde": "Toimintakulut teksti s.62-63"
+        },
+        {
+          "id": "avust_yht",
+          "nimi": "Avustukset yhteisöille",
+          "arvo": 24.0,
+          "arvio": true,
+          "lahde": "suuntaa-antava"
+        },
+        {
+          "id": "avust_muut",
+          "nimi": "Muut avustukset",
+          "arvo": 18.0,
+          "arvio": true,
+          "lahde": "suuntaa-antava"
+        }
+      ],
+      "arvo": 79.2
+    },
+    {
+      "id": "aineet",
+      "nimi": "Aineet ja tarvikkeet",
+      "arvo": 47.3,
+      "luokka": "meno",
+      "lahde": "Toimintakulut kululaji s.62"
+    },
+    {
+      "id": "vuokrat",
+      "nimi": "Vuokrat ja muut",
+      "arvo": 27.1,
+      "luokka": "meno",
+      "lahde": "Toimintakulut kululaji s.62 (vuokrakulut + muut)"
+    },
+    {
+      "id": "invest",
+      "nimi": "Investoinnit",
+      "luokka": "rahoitus",
+      "lahde": "Rahoituslaskelma s.66 (investointimenot)",
+      "lapset": [
+        {
+          "id": "inv_talo",
+          "nimi": "Talonrakennus",
+          "arvo": 88.0,
+          "arvio": true,
+          "lahde": "investointiosa s.235 hankekohtainen"
+        },
+        {
+          "id": "inv_kadut",
+          "nimi": "Kadut ja liikenneväylät",
+          "arvo": 49.4,
+          "arvio": true,
+          "lahde": "investointiosa hankekohtainen"
+        },
+        {
+          "id": "inv_koneet",
+          "nimi": "Koneet, kalusto ja ICT",
+          "arvo": 18.4,
+          "arvio": true,
+          "lahde": "investointiosa hankekohtainen"
+        },
+        {
+          "id": "inv_maa",
+          "nimi": "Maa-alueet ja muut",
+          "arvo": 15.0,
+          "arvio": true,
+          "lahde": "investointiosa hankekohtainen"
+        }
+      ],
+      "arvo": 170.8
+    },
+    {
+      "id": "korkokulut",
+      "nimi": "Korko- ja rahoituskulut",
+      "arvo": 14.7,
+      "luokka": "meno",
+      "lahde": "Tuloslaskelma s.51 / Rahoituslaskelma s.66"
+    },
+    {
+      "id": "lyhennys",
+      "nimi": "Lainojen lyhennykset",
+      "arvo": 81.9,
+      "luokka": "rahoitus",
+      "lahde": "Rahoituslaskelma s.66 (pitkäaik. 23,9 + lyhytaik. 58,1)"
+    }
+  ]
+}
