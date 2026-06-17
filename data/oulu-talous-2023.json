@@ -1,0 +1,154 @@
+{
+  "vuosi": 2023,
+  "yksikko": "milj. €",
+  "otsikko": "Mistä rahat tulevat ja mihin ne menevät",
+  "kuvaus": "Koko rahankäyttö vuonna 2023: kaikki rahanlähteet vasemmalla, kaikki käyttö oikealla. Vuosi 2023 on ensimmäinen sote-uudistuksen jälkeen (sosiaali- ja terveyspalvelut siirtyivät hyvinvointialueelle 1.1.2023), joten luvut ovat vertailukelpoisia vuosien 2024 ja 2025 kanssa mutta eivät sitä aiempien vuosien kanssa.",
+  "tulot": [
+    {
+      "id": "verot",
+      "nimi": "Verotulot",
+      "arvo": 524.3,
+      "luokka": "tulo",
+      "lahde": "Tuloslaskelma (Verotulot)"
+    },
+    {
+      "id": "toimtuotot",
+      "nimi": "Toimintatuotot",
+      "arvo": 194.6,
+      "luokka": "tulo",
+      "lahde": "Tuloslaskelma / Ulkoiset toimintatuotot",
+      "lapset": [
+        {
+          "id": "tt_myynti",
+          "nimi": "Myyntituotot",
+          "arvo": 65.4,
+          "lahde": "Ulkoiset toimintatuotot"
+        },
+        {
+          "id": "tt_vuokra",
+          "nimi": "Vuokratuotot",
+          "arvo": 60.1,
+          "lahde": "Ulkoiset toimintatuotot"
+        },
+        {
+          "id": "tt_maksu",
+          "nimi": "Maksutuotot",
+          "arvo": 31.8,
+          "lahde": "Ulkoiset toimintatuotot"
+        },
+        {
+          "id": "tt_tuet",
+          "nimi": "Tuet ja avustukset",
+          "arvo": 26.0,
+          "lahde": "Ulkoiset toimintatuotot"
+        },
+        {
+          "id": "tt_muut",
+          "nimi": "Muut tuotot",
+          "arvo": 11.3,
+          "lahde": "Ulkoiset toimintatuotot"
+        }
+      ]
+    },
+    {
+      "id": "valtio",
+      "nimi": "Valtionosuudet",
+      "arvo": 119.8,
+      "luokka": "tulo",
+      "lahde": "Tuloslaskelma (Valtionosuudet)"
+    },
+    {
+      "id": "rahoitus",
+      "nimi": "Rahoitustuotot",
+      "arvo": 29.4,
+      "luokka": "tulo",
+      "lahde": "Tuloslaskelma (korkotuotot 10,5 + muut 19,0, brutto)"
+    },
+    {
+      "id": "lyhytlaina",
+      "nimi": "Lyhytaikaisten lainojen lisäys",
+      "arvo": 105.6,
+      "luokka": "rahoitus",
+      "lahde": "Rahoituslaskelma (lyhytaikaisten lainojen muutos, positiivinen)"
+    },
+    {
+      "id": "myynti",
+      "nimi": "Omaisuuden myynti ja rah.osuudet",
+      "arvo": 20.9,
+      "luokka": "tulo",
+      "lahde": "Rahoituslaskelma (luovutustulot 15,4 + rahoitusosuudet 5,5)"
+    },
+    {
+      "id": "antolaina_in",
+      "nimi": "Antolainojen takaisinmaksut",
+      "arvo": 2.4,
+      "luokka": "tulo",
+      "lahde": "Rahoituslaskelma (antolainasaamisten vähennys)"
+    },
+    {
+      "id": "kassa",
+      "nimi": "Kassavarojen väheneminen ja muut maksuvalmius",
+      "arvo": 3.3,
+      "luokka": "kassa",
+      "lahde": "Rahoituslaskelma (tasaa virrat: rahavarojen + maksuvalmiuden muutos)"
+    }
+  ],
+  "menot": [
+    {
+      "id": "henk",
+      "nimi": "Henkilöstökulut",
+      "arvo": 407.7,
+      "luokka": "meno",
+      "lahde": "Ulkoiset toimintakulut"
+    },
+    {
+      "id": "palv",
+      "nimi": "Palvelujen ostot",
+      "arvo": 243.8,
+      "luokka": "meno",
+      "lahde": "Ulkoiset toimintakulut"
+    },
+    {
+      "id": "aineet",
+      "nimi": "Aineet ja tarvikkeet",
+      "arvo": 55.0,
+      "luokka": "meno",
+      "lahde": "Ulkoiset toimintakulut (aineet, tarvikkeet ja tavarat)"
+    },
+    {
+      "id": "avust",
+      "nimi": "Avustukset",
+      "arvo": 50.6,
+      "luokka": "meno",
+      "lahde": "Ulkoiset toimintakulut"
+    },
+    {
+      "id": "vuokrat",
+      "nimi": "Vuokrat ja muut",
+      "arvo": 29.4,
+      "luokka": "meno",
+      "lahde": "Ulkoiset toimintakulut (vuokrakulut 24,8 + muut 4,6)"
+    },
+    {
+      "id": "invest",
+      "nimi": "Investoinnit",
+      "arvo": 183.0,
+      "luokka": "rahoitus",
+      "lahde": "Rahoituslaskelma (investointimenot)"
+    },
+    {
+      "id": "korkokulut",
+      "nimi": "Korko- ja rahoituskulut",
+      "arvo": 8.1,
+      "luokka": "meno",
+      "lahde": "Tuloslaskelma (korkokulut 7,3 + muut 0,8)"
+    },
+    {
+      "id": "lyhennys",
+      "nimi": "Lainojen lyhennykset",
+      "arvo": 22.7,
+      "luokka": "rahoitus",
+      "lahde": "Rahoituslaskelma (pitkäaikaisten lainojen vähennys)"
+    }
+  ]
+}
