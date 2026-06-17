@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="fi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Oulun kaupungin rahavirrat — interaktiivinen Sankey</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.8.5/d3.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/d3-sankey/0.12.3/d3-sankey.min.js"></script>
+<style>
+  :root{--ink:#0d2a3a;--paper:#f3eee3;--muted:#6b6253;--tulo:#1f7a6b;--meno:#c4552f;--inv:#7a5cc4;}
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{background:var(--paper);color:var(--ink);font-family:"Segoe UI",system-ui,-apple-system,sans-serif;padding:clamp(14px,3.5vw,40px);line-height:1.4}
+  .wrap{max-width:1120px;margin:0 auto}
+  .eyebrow{font-size:.72rem;letter-spacing:.22em;text-transform:uppercase;font-weight:700;color:var(--muted)}
+  h1{font-size:clamp(1.5rem,4.5vw,2.4rem);font-weight:800;letter-spacing:-.02em;margin:6px 0 8px;line-height:1.05}
+  .sub{font-size:clamp(.9rem,2vw,1.05rem);color:var(--muted);max-width:74ch;min-height:2.6em}
+  .hint{font-size:.85rem;font-weight:600;color:var(--tulo);margin:12px 0 2px;display:flex;align-items:center;gap:8px}
+  .hint svg{flex:none}
+  .bar{display:flex;flex-wrap:wrap;gap:12px;align-items:center;margin:14px 0 6px}
+  .key{display:flex;gap:18px;flex-wrap:wrap;font-size:.8rem;font-weight:600}
+  .key span{display:inline-flex;align-items:center;gap:7px}
+  .key i{width:13px;height:13px;border-radius:3px;display:inline-block}
+  .year{display:inline-flex;align-items:center;gap:8px;font-size:.82rem;font-weight:700}
+  .year select{font:inherit;font-weight:700;color:var(--ink);background:var(--paper);border:1.5px solid var(--ink);border-radius:8px;padding:5px 10px;cursor:pointer}
+  .controls{margin-left:auto;display:flex;gap:10px;align-items:center}
+  .reset{border:1.5px solid var(--ink);background:transparent;color:var(--ink);font:inherit;font-size:.8rem;font-weight:700;padding:6px 14px;border-radius:20px;cursor:pointer;opacity:.35;pointer-events:none;transition:opacity .15s,background .15s}
+  .reset.on{opacity:1;pointer-events:auto}
+  .reset.on:hover{background:var(--ink);color:var(--paper)}
+  .chart{width:100%;margin-top:6px;overflow-x:auto;position:relative;min-height:120px}
+  svg#sankey{width:100%;height:auto;display:block;min-width:720px}
+  .status{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:.95rem;color:var(--muted);font-weight:600;text-align:center;padding:20px}
+  .status.err{color:var(--meno)}
+  .node rect{stroke-width:0}
+  .node.expandable rect{cursor:pointer}
+  .node text{font-size:13px;font-weight:600;fill:var(--ink);pointer-events:none}
+  .node .amt{font-size:11px;font-weight:700;fill:var(--muted)}
+  .node .src{font-size:9px;font-style:italic;fill:#9a907f}
+  .link{fill:none}
+  path.link{transition:stroke-opacity .15s}
+  footer{margin-top:22px;padding-top:13px;border-top:1px solid rgba(13,42,58,.25);font-size:.75rem;color:var(--muted)}
+  footer b{color:var(--ink)}
+  .warn{color:var(--meno);font-weight:700}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="eyebrow" id="eyebrow">Oulun kaupunki · Tilinpäätös</div>
+  <h1 id="title">Mistä rahat tulevat ja mihin ne menevät</h1>
+  <p class="sub" id="desc"></p>
+  <div class="hint">
+    <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="7" stroke="#1f7a6b" stroke-width="1.5"/><path d="M8 4.5v4M8 11h.01" stroke="#1f7a6b" stroke-width="1.6" stroke-linecap="round"/></svg>
+    Klikkaa solmua jossa on <b style="margin:0 3px">＋</b>-merkki avataksesi sen alakategoriat.
+  </div>
+  <div class="bar">
+    <div class="key">
+      <span><i style="background:#1f7a6b"></i>Tulot</span>
+      <span><i style="background:#c4552f"></i>Toimintakulut</span>
+      <span><i style="background:#7a5cc4"></i>Lainat ja investoinnit</span>
+      <span><i style="background:#8a8175"></i>Kassavarat</span>
+    </div>
+    <div class="controls">
+      <label class="year">Vuosi <select id="yearSelect"></select></label>
+      <button class="reset" id="reset">Sulje kaikki ↺</button>
+    </div>
+  </div>
+  <div class="chart">
+    <svg id="sankey"></svg>
+    <div class="status" id="status"></div>
+  </div>
+  <footer id="footer">
+    <b>Lähde:</b> Oulun kaupungin toimintakertomus ja tilinpäätös. Kunkin solmun lähde näkyy solmun alla ja hiiren osoittimella. Luvut milj. €.
+    Tähdellä <b>*</b> merkityt alaerät (arvio) eivät tule suoraan tilinpäätöksestä, vaan ne on jaettu lautakunta- tai hankekohtaisista tiedoista.
+    Tämä on koko rahankäytön kuva: mukana ovat lainanotto, lainojen lyhennykset, investoinnit ja kassavarojen muutos, joten molemmat puolet täsmäävät.
+    Huom: tilikauden yli-/alijäämä lasketaan vain toiminnan tuotoista, kuluista ja poistoista, joten se on eri suure kuin tässä näkyvä rahavirta.
+    <span id="balanceNote"></span>
+  </footer>
+</div>
+
+<script id="embedded-data" type="application/json">{"vuosi": 2025, "yksikko": "milj. €", "otsikko": "Mistä rahat tulevat ja mihin ne menevät", "kuvaus": "Koko rahankäyttö vuonna 2025: kaikki rahanlähteet vasemmalla, kaikki käyttö oikealla. Molemmat puolet täsmäävät, koska mukana ovat myös lainat, investoinnit ja kassavarojen muutos.", "tulot": [{"id": "verot", "nimi": "Verotulot", "luokka": "tulo", "lahde": "Tuloslaskelma s.51 / Verotulot-taulukko s.231", "lapset": [{"id": "verot_kunnallis", "nimi": "Kunnallisvero", "arvo": 394.0, "lahde": "Verotulot-taulukko s.231"}, {"id": "verot_kiinteisto", "nimi": "Kiinteistövero", "arvo": 73.9, "lahde": "Verotulot-taulukko s.231"}, {"id": "verot_yhteiso", "nimi": "Yhteisövero", "arvo": 41.0, "lahde": "Verotulot-taulukko s.231"}], "arvo": 508.9}, {"id": "toimtuotot", "nimi": "Toimintatuotot", "luokka": "tulo", "lahde": "Tuloslaskelma s.51 / Ulkoiset toimintatuotot s.61", "lapset": [{"id": "tt_myynti", "nimi": "Myyntituotot", "arvo": 73.5, "lahde": "Ulkoiset toimintatuotot s.61"}, {"id": "tt_vuokra", "nimi": "Vuokratuotot", "arvo": 64.9, "lahde": "Ulkoiset toimintatuotot s.61"}, {"id": "tt_maksu", "nimi": "Maksutuotot", "arvo": 35.0, "lahde": "Ulkoiset toimintatuotot s.61"}, {"id": "tt_tuet", "nimi": "Tuet ja avustukset", "arvo": 19.3, "lahde": "Ulkoiset toimintatuotot s.61"}, {"id": "tt_muut", "nimi": "Muut tuotot", "arvo": 10.2, "lahde": "Ulkoiset toimintatuotot s.61"}], "arvo": 202.9}, {"id": "valtio", "nimi": "Valtionosuudet", "arvo": 142.1, "luokka": "tulo", "lahde": "Tuloslaskelma s.51"}, {"id": "rahoitus", "nimi": "Rahoitustuotot", "arvo": 30.8, "luokka": "tulo", "lahde": "Rahoituslaskelma s.66 (brutto)"}, {"id": "laina", "nimi": "Lainanotto", "arvo": 150.0, "luokka": "rahoitus", "lahde": "Rahoituslaskelma s.66 (pitkäaikaisten lainojen lisäys)"}, {"id": "myynti", "nimi": "Omaisuuden myynti ja rah.osuudet", "arvo": 14.6, "luokka": "tulo", "lahde": "Rahoituslaskelma s.66"}, {"id": "antolaina_in", "nimi": "Antolainojen takaisinmaksut", "arvo": 3.5, "luokka": "tulo", "lahde": "Rahoituslaskelma s.66"}, {"id": "kassa", "nimi": "Kassavarojen väheneminen", "arvo": 15.1, "luokka": "kassa", "lahde": "Rahoituslaskelma s.66 (tasaa virrat)"}], "menot": [{"id": "henk", "nimi": "Henkilöstökulut", "luokka": "meno", "lahde": "Tuloslaskelma s.51 / Henkilöstökust. s.28-29", "lapset": [{"id": "palkat", "nimi": "Palkat ja palkkiot", "luokka": "meno", "lahde": "Henkilöstökust. s.29", "lapset": [{"id": "palkat_perusop", "nimi": "Perusopetus ja nuoriso", "arvo": 108.6, "arvio": true, "lahde": "htv-suhde: sivistys 288,3 s.57; htv 2557 s.235"}, {"id": "palkat_varhais", "nimi": "Varhaiskasvatus", "arvo": 89.2, "arvio": true, "lahde": "htv-suhde: htv 2100 s.235"}, {"id": "palkat_muusiv", "nimi": "Muu sivistys (lukio, kulttuuri ym.)", "arvo": 35.0, "arvio": true, "lahde": "htv-suhde: htv 824 s.235"}, {"id": "palkat_muuperus", "nimi": "Muu peruskunta (yhdyskunta, hallinto ym.)", "arvo": 44.7, "arvio": true, "lahde": "peruskunta 343,7 − sivistys 288,3 s.56-57"}, {"id": "palkat_liike", "nimi": "Liikelaitokset", "arvo": 39.2, "arvio": true, "lahde": "liikelaitosten henkilöstökulut 48,5 s.56"}], "arvo": 316.6}, {"id": "elake", "nimi": "Eläkekulut", "arvo": 65.9, "lahde": "Henkilöstökust. s.29"}, {"id": "sivukulut", "nimi": "Muut henkilösivukulut", "arvo": 9.7, "lahde": "Henkilöstökust. s.29"}], "arvo": 392.2}, {"id": "palv", "nimi": "Palvelujen ostot", "luokka": "meno", "lahde": "Tuloslaskelma s.62 / liite 9 s.287", "lapset": [{"id": "palv_muut", "nimi": "Muiden palvelujen ostot", "luokka": "meno", "lahde": "Liite 9 s.287", "lapset": [{"id": "palv_muut_liike", "nimi": "Liikelaitokset (Tilapalvelut, Vesi, Business Oulu ym.)", "arvo": 75.9, "arvio": true, "lahde": "liikelaitosten liitetiedot s.304 (skaalattu)"}, {"id": "palv_muut_yhd", "nimi": "Yhdyskunta (rakentaminen, kunnossapito)", "arvo": 50.2, "arvio": true, "lahde": "yhdyskuntalautakunta käyttötalous"}, {"id": "palv_muut_siv", "nimi": "Sivistyspalvelut", "arvo": 44.0, "arvio": true, "lahde": "sivistyslautakunta muut palv. 66,2 (jaettu)"}, {"id": "palv_muut_hall", "nimi": "Hallinto, ICT ja muut", "arvo": 13.3, "arvio": true, "lahde": "suuntaa-antava"}, {"id": "palv_muut_hykl", "nimi": "Hyvinvointi, kulttuuri ja liikunta", "arvo": 11.8, "arvio": true, "lahde": "HYKL-lautakunta käyttötalous"}], "arvo": 195.2}, {"id": "palv_asiakas", "nimi": "Asiakaspalvelujen ostot", "luokka": "meno", "lahde": "Liite 9 s.287", "lapset": [{"id": "palv_as_seteli", "nimi": "Palvelusetelit", "arvo": 31.2, "lahde": "sivistyslautakunta palvelusetelit"}, {"id": "palv_as_muut", "nimi": "Muut asiakaspalvelut", "arvo": 28.2, "lahde": "liite 9 (asiakaspalvelut 59,4 − palvelusetelit)"}], "arvo": 59.4}], "arvo": 254.7}, {"id": "avust", "nimi": "Avustukset", "luokka": "meno", "lahde": "Toimintakulut kululaji s.62", "lapset": [{"id": "avust_tyott", "nimi": "Työttömyysturvan kuntaosuus", "arvo": 37.2, "lahde": "Toimintakulut teksti s.62-63"}, {"id": "avust_yht", "nimi": "Avustukset yhteisöille", "arvo": 24.0, "arvio": true, "lahde": "suuntaa-antava"}, {"id": "avust_muut", "nimi": "Muut avustukset", "arvo": 18.0, "arvio": true, "lahde": "suuntaa-antava"}], "arvo": 79.2}, {"id": "aineet", "nimi": "Aineet ja tarvikkeet", "arvo": 47.3, "luokka": "meno", "lahde": "Toimintakulut kululaji s.62"}, {"id": "vuokrat", "nimi": "Vuokrat ja muut", "arvo": 27.1, "luokka": "meno", "lahde": "Toimintakulut kululaji s.62 (vuokrakulut + muut)"}, {"id": "invest", "nimi": "Investoinnit", "luokka": "rahoitus", "lahde": "Rahoituslaskelma s.66 (investointimenot)", "lapset": [{"id": "inv_talo", "nimi": "Talonrakennus", "arvo": 88.0, "arvio": true, "lahde": "investointiosa s.235 hankekohtainen"}, {"id": "inv_kadut", "nimi": "Kadut ja liikenneväylät", "arvo": 49.4, "arvio": true, "lahde": "investointiosa hankekohtainen"}, {"id": "inv_koneet", "nimi": "Koneet, kalusto ja ICT", "arvo": 18.4, "arvio": true, "lahde": "investointiosa hankekohtainen"}, {"id": "inv_maa", "nimi": "Maa-alueet ja muut", "arvo": 15.0, "arvio": true, "lahde": "investointiosa hankekohtainen"}], "arvo": 170.8}, {"id": "korkokulut", "nimi": "Korko- ja rahoituskulut", "arvo": 14.7, "luokka": "meno", "lahde": "Tuloslaskelma s.51 / Rahoituslaskelma s.66"}, {"id": "lyhennys", "nimi": "Lainojen lyhennykset", "arvo": 81.9, "luokka": "rahoitus", "lahde": "Rahoituslaskelma s.66 (pitkäaik. 23,9 + lyhytaik. 58,1)"}]}</script>
+<script>
+const {sankey, sankeyLinkHorizontal, sankeyJustify} = d3;
+
+/* =========================================================================
+   CONFIG — mistä data ladataan.
+   Lisää uusi vuosi YEARS-listaan ja vie sen JSON urlFor()-polkuun.
+   JSON-muoto: { vuosi, yksikko, otsikko, kuvaus, tulot:[...], menot:[...] }
+   Solmu: { id, nimi, arvo, luokka?, lahde?, arvio?, lapset?:[...] }
+   - arvo annetaan JOKA tasolla erikseen (sivu ei laske välisummia)
+   - luokka (ylätason solmuissa): "tulo" | "meno" | "rahoitus" | "kassa"
+   - arvio:true merkitsee luvun joka ei tule suoraan tilinpäätöksestä
+   ========================================================================= */
+const YEARS = [2025, 2024];
+const urlFor = (vuosi) => `data/oulu-talous-${vuosi}.json`;
+
+/* Varadata <script type="application/json"> -lohkosta. Käytetään jos
+   verkkohaku epäonnistuu (esim. tiedostona avattaessa). */
+let EMBEDDED = {};
+try {
+  const raw = document.getElementById("embedded-data").textContent.trim();
+  if (raw && raw[0] === "{") { const d = JSON.parse(raw); EMBEDDED[d.vuosi] = d; }
+} catch(e){ console.warn("Varadatan luku epäonnistui:", e); }
+
+/* ---------- värit ---------- */
+const COL = {tulo:"#1f7a6b", tuloL:"#3fa996", meno:"#c4552f", menoL:"#dc8a5f",
+             inv:"#7a5cc4", invL:"#9b82d6", hub:"#0d2a3a", kassa:"#8a8175", kassaL:"#a89f92"};
+function baseColor(luokka, puoli){
+  if(luokka==="rahoitus") return COL.inv;
+  if(luokka==="kassa")    return COL.kassa;
+  if(luokka==="meno")     return COL.meno;
+  if(luokka==="tulo")     return COL.tulo;
+  return puoli==="meno" ? COL.meno : COL.tulo;
+}
+function lightColor(base){
+  return base===COL.inv?COL.invL : base===COL.kassa?COL.kassaL
+       : base===COL.meno?COL.menoL : COL.tuloL;
+}
+
+/* ---------- tila ---------- */
+let TULOT = [], MENOT = [], YKSIKKO = "milj. €";
+const open = new Set();
+const HUB = "Oulun kaupunki";
+
+/* ---------- graafin rakentaminen (ei normalisointia) ---------- */
+function buildGraph(){
+  const nodeIndex = new Map();
+  const nodes = [];
+  const links = [];
+  const addNode = (name, color, meta={}) => {
+    if(nodeIndex.has(name)) return nodeIndex.get(name);
+    const i = nodes.length;
+    nodes.push(Object.assign({name,color},meta));
+    nodeIndex.set(name,i);
+    return i;
+  };
+  const hub = addNode(HUB, COL.hub, {hub:true});
+
+  const ensureId = (node, path) => {
+    if(!node.id) node.id = path;
+    if(node.lapset) node.lapset.forEach((c,i)=>ensureId(c, path+">"+i));
+  };
+  TULOT.forEach((s,i)=>ensureId(s,"t"+i));
+  MENOT.forEach((e,i)=>ensureId(e,"m"+i));
+
+  function placeBranch(node, dir, base){
+    const expandable = !!(node.lapset && node.lapset.length);
+    const isOpen = open.has(node.id) && expandable;
+    if(isOpen){
+      const parent = addNode(node.nimi, base, {expandable:true, expanded:true, id:node.id, src:node.lahde, est:node.arvio});
+      node.lapset.forEach(c=>{
+        const cCol = lightColor(base);
+        const childIdx = placeBranch(c, dir, cCol);
+        const v = +c.arvo || 0;
+        if(dir<0) links.push({source:childIdx, target:parent, value:v, color:base});
+        else      links.push({source:parent, target:childIdx, value:v, color:base});
+      });
+      return parent;
+    }
+    return addNode(node.nimi, base, {expandable, id:node.id, src:node.lahde, est:node.arvio, side: dir<0?"in":"out"});
+  }
+
+  TULOT.forEach(s=>{
+    const base = baseColor(s.luokka, "tulo");
+    const idx = placeBranch(s, -1, base);
+    links.push({source:idx, target:hub, value:+s.arvo||0, color:base});
+  });
+  MENOT.forEach(e=>{
+    const base = baseColor(e.luokka, "meno");
+    const idx = placeBranch(e, +1, base);
+    links.push({source:hub, target:idx, value:+e.arvo||0, color:base});
+  });
+
+  return {nodes, links};
+}
+
+/* ---------- piirto ---------- */
+const W=1100, H=820, M={top:12,right:8,bottom:12,left:8};
+const svgEl = d3.select("#sankey").attr("viewBox",`0 0 ${W} ${H}`).attr("preserveAspectRatio","xMidYMid meet");
+const gLinks = svgEl.append("g");
+const gNodes = svgEl.append("g");
+const fmt = v => v.toLocaleString("fi-FI",{maximumFractionDigits:1});
+
+function render(){
+  const data = buildGraph();
+  const sk = sankey().nodeWidth(18).nodePadding(20).nodeAlign(sankeyJustify).nodeSort(null)
+    .extent([[M.left,M.top],[W-M.right,H-M.bottom]]);
+  const graph = sk({
+    nodes:data.nodes.map(d=>Object.assign({},d)),
+    links:data.links.map(d=>Object.assign({},d))
+  });
+
+  const lk = gLinks.selectAll("path").data(graph.links, d=>d.source.name+"|"+d.target.name);
+  lk.exit().remove();
+  lk.enter().append("path").attr("class","link").attr("stroke-opacity",0.32)
+    .merge(lk)
+      .attr("d",sankeyLinkHorizontal())
+      .attr("stroke",d=>d.color)
+      .attr("stroke-width",d=>Math.max(1.2,d.width))
+      .attr("fill","none")
+    .selectAll("title").data(d=>[d]).join("title")
+      .text(d=>`${d.source.name} → ${d.target.name}\n${fmt(d.value)} ${YKSIKKO}`);
+
+  const nd = gNodes.selectAll("g.node").data(graph.nodes, d=>d.name);
+  nd.exit().remove();
+  const ndAll = nd.enter().append("g").merge(nd)
+    .attr("class",d=>"node"+(d.expandable?" expandable":""))
+    .on("click",(e,d)=>{
+      if(!d.expandable) return;
+      if(open.has(d.id)) open.delete(d.id); else open.add(d.id);
+      updateReset(); render();
+    });
+  ndAll.selectAll("*").remove();
+
+  ndAll.append("rect")
+    .attr("x",d=>d.x0).attr("y",d=>d.y0)
+    .attr("height",d=>Math.max(1,d.y1-d.y0))
+    .attr("width",d=>d.x1-d.x0)
+    .attr("fill",d=>d.color).attr("rx",2);
+
+  ndAll.each(function(d){
+    const g=d3.select(this);
+    const leftSide = d.x0 < W/2;
+    if(d.hub){
+      const cx=(d.x0+d.x1)/2, cy=(d.y0+d.y1)/2;
+      g.append("text").attr("x",cx).attr("y",cy).attr("text-anchor","middle")
+        .attr("transform",`rotate(-90 ${cx} ${cy})`)
+        .style("font-size","15px").style("font-weight","800").text(d.name);
+      return;
+    }
+    const tx = leftSide ? d.x1+8 : d.x0-8;
+    const anchor = leftSide ? "start":"end";
+    const ty=(d.y0+d.y1)/2;
+    const label = (d.expandable && !d.expanded ? "＋ " : "") + d.name + (d.est?" *":"");
+    const hasSrc = !!d.src;
+    const nameDy = hasSrc ? -9 : -3;
+    const t=g.append("text").attr("x",tx).attr("y",ty+nameDy).attr("text-anchor",anchor).text(label);
+    if(d.expandable && !d.expanded) t.style("fill",d.color).style("font-weight","700");
+    g.append("text").attr("class","amt").attr("x",tx).attr("y",ty+(hasSrc?5:12))
+      .attr("text-anchor",anchor).text(fmt(d.value)+" "+YKSIKKO);
+    if(hasSrc){
+      g.append("text").attr("class","src").attr("x",tx).attr("y",ty+17)
+        .attr("text-anchor",anchor).text((d.est?"(arvio) ":"")+d.src);
+    }
+    g.append("title").text(`${d.name}\n${fmt(d.value)} ${YKSIKKO}`+(d.est?" (arvio)":"")+(hasSrc?`\nLähde: ${d.src}`:""));
+  });
+}
+
+function updateReset(){ d3.select("#reset").classed("on", open.size>0); }
+d3.select("#reset").on("click",()=>{open.clear();updateReset();render();});
+
+/* ---------- validointi (varoittaa, ei korjaa) ---------- */
+function validate(data){
+  const warnings = [];
+  const walk = (node) => {
+    if(node.lapset && node.lapset.length){
+      const sum = node.lapset.reduce((a,c)=>a+(+c.arvo||0),0);
+      if(Math.abs(sum-(+node.arvo||0)) > 0.3)
+        warnings.push(`"${node.nimi}": lasten summa ${sum.toFixed(1)} ≠ annettu arvo ${node.arvo}`);
+      node.lapset.forEach(walk);
+    }
+  };
+  (data.tulot||[]).forEach(walk);
+  (data.menot||[]).forEach(walk);
+  const L=(data.tulot||[]).reduce((a,n)=>a+(+n.arvo||0),0);
+  const K=(data.menot||[]).reduce((a,n)=>a+(+n.arvo||0),0);
+  return {warnings, L, K};
+}
+
+/* ---------- datan käyttöönotto ---------- */
+function applyData(data){
+  TULOT = data.tulot || [];
+  MENOT = data.menot || [];
+  YKSIKKO = data.yksikko || "milj. €";
+  open.clear(); updateReset();
+  document.getElementById("eyebrow").textContent = `Oulun kaupunki · Tilinpäätös ${data.vuosi}`;
+  document.getElementById("title").textContent = data.otsikko || "Mistä rahat tulevat ja mihin ne menevät";
+  document.getElementById("desc").textContent = data.kuvaus || "";
+  const {warnings, L, K} = validate(data);
+  let note = ` Vuoden ${data.vuosi} tulot yhteensä ${fmt(L)} ${YKSIKKO}, menot ${fmt(K)} ${YKSIKKO}.`;
+  if(Math.abs(L-K) > 0.3) note += ` <span class="warn">Puolet eivät täsmää (ero ${fmt(Math.abs(L-K))}).</span>`;
+  document.getElementById("balanceNote").innerHTML = note;
+  if(warnings.length){
+    console.warn(`Vuosi ${data.vuosi}: ${warnings.length} summavaroitus(ta):`);
+    warnings.forEach(w=>console.warn("  • "+w));
+  }
+  render();
+}
+
+function setStatus(msg, isErr){
+  const s=document.getElementById("status");
+  s.textContent = msg||"";
+  s.classList.toggle("err", !!isErr);
+  s.style.display = msg ? "flex" : "none";
+}
+
+async function loadYear(vuosi){
+  setStatus(`Ladataan vuoden ${vuosi} tietoja…`, false);
+  try{
+    const res = await fetch(urlFor(vuosi), {cache:"no-store"});
+    if(res.ok){ const data = await res.json(); setStatus("", false); applyData(data); return; }
+  }catch(e){ /* fetch estetty tai verkko ei käytettävissä */ }
+  if(EMBEDDED[vuosi]){ setStatus("", false); applyData(EMBEDDED[vuosi]); return; }
+  setStatus(`Vuoden ${vuosi} tietoja ei voitu ladata (${urlFor(vuosi)}). Lisää JSON kyseiseen polkuun tai upota se varadataan.`, true);
+  TULOT=[];MENOT=[];render();
+}
+
+/* ---------- dropdown ---------- */
+const sel = document.getElementById("yearSelect");
+YEARS.forEach(y=>{ const o=document.createElement("option"); o.value=y; o.textContent=y; sel.appendChild(o); });
+sel.addEventListener("change", e=>loadYear(+e.target.value));
+loadYear(YEARS[0]);
+</script>
+</body>
+</html>
