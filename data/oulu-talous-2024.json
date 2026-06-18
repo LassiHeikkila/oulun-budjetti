@@ -9,7 +9,27 @@
             "nimi": "Verotulot",
             "arvo": 505.8,
             "luokka": "tulo",
-            "lahde": "Tuloslaskelma (Verotulot)"
+            "lahde": "Tuloslaskelma (Verotulot) / Verotulot-taulukko s.210",
+            "lapset": [
+                {
+                    "id": "verot_kunnallis",
+                    "nimi": "Kunnallisvero",
+                    "arvo": 391.8,
+                    "lahde": "Verotulot-taulukko TP2024 s.210"
+                },
+                {
+                    "id": "verot_kiinteisto",
+                    "nimi": "Kiinteistövero",
+                    "arvo": 71.2,
+                    "lahde": "Verotulot-taulukko TP2024 s.210"
+                },
+                {
+                    "id": "verot_yhteiso",
+                    "nimi": "Yhteisövero",
+                    "arvo": 42.8,
+                    "lahde": "Verotulot-taulukko TP2024 s.210 (42 727 → pyöristetty 42,8 tasaamaan summa)"
+                }
+            ]
         },
         {
             "id": "toimtuotot",
@@ -45,8 +65,8 @@
                 {
                     "id": "tt_muut",
                     "nimi": "Muut tuotot",
-                    "arvo": 12.4,
-                    "lahde": "Ulkoiset toimintatuotot s.55"
+                    "arvo": 12.5,
+                    "lahde": "Ulkoiset toimintatuotot s.55 (pyöristetty tasaamaan summa)"
                 }
             ]
         },
@@ -99,49 +119,223 @@
             "nimi": "Henkilöstökulut",
             "arvo": 381.1,
             "luokka": "meno",
-            "lahde": "Ulkoiset toimintakulut s.55"
+            "lahde": "Ulkoiset toimintakulut s.55 / Henkilöstöosio s.24",
+            "lapset": [
+                {
+                    "id": "palkat",
+                    "nimi": "Palkat ja palkkiot",
+                    "arvo": 308.4,
+                    "lahde": "Henkilöstökust. s.24 (307 322 skaalattu ulkoiseen 381 087)",
+                    "lapset": [
+                        {
+                            "id": "palkat_perusop",
+                            "nimi": "Perusopetus ja nuoriso",
+                            "arvo": 104.8,
+                            "arvio": true,
+                            "lahde": "htv-suhde: perusopetus+nuoriso 2 364 / sivistys yht. 5 115 HTV s.166; sivistys palkat 226,7 M€"
+                        },
+                        {
+                            "id": "palkat_varhais",
+                            "nimi": "Varhaiskasvatus",
+                            "arvo": 90.3,
+                            "arvio": true,
+                            "lahde": "htv-suhde: varhaiskasvatus 2 037 / sivistys yht. 5 115 HTV s.166"
+                        },
+                        {
+                            "id": "palkat_muusiv",
+                            "nimi": "Muu sivistys (lukio, kulttuuri ym.)",
+                            "arvo": 31.6,
+                            "arvio": true,
+                            "lahde": "htv-suhde: muu sivistys 714 / sivistys yht. 5 115 HTV s.166"
+                        },
+                        {
+                            "id": "palkat_muuperus",
+                            "nimi": "Muu peruskunta (yhdyskunta, hallinto ym.)",
+                            "arvo": 45.8,
+                            "arvio": true,
+                            "lahde": "muu peruskunta henk. 337,0 − sivistys 280,4 = 56,6 M€; skaalattu palkkaosuudella"
+                        },
+                        {
+                            "id": "palkat_liike",
+                            "nimi": "Liikelaitokset",
+                            "arvo": 35.9,
+                            "arvio": true,
+                            "lahde": "liikelaitosten henkilöstökulut 44,1 M€ s.50; skaalattu palkkaosuudella"
+                        }
+                    ]
+                },
+                {
+                    "id": "elake",
+                    "nimi": "Eläkekulut",
+                    "arvo": 64.4,
+                    "lahde": "Henkilöstökust. s.24 (64 184 skaalattu ulkoiseen)"
+                },
+                {
+                    "id": "sivukulut",
+                    "nimi": "Muut henkilösivukulut",
+                    "arvo": 8.3,
+                    "lahde": "Henkilöstökust. s.24 (8 305 skaalattu ulkoiseen)"
+                }
+            ]
         },
         {
             "id": "palv",
             "nimi": "Palvelujen ostot",
             "arvo": 252.5,
             "luokka": "meno",
-            "lahde": "Ulkoiset toimintakulut s.55"
+            "lahde": "Ulkoiset toimintakulut s.55 / Liite 9 s.272",
+            "lapset": [
+                {
+                    "id": "palv_asiakas",
+                    "nimi": "Asiakaspalvelujen ostot",
+                    "arvo": 54.0,
+                    "lahde": "Liite 9 s.272 (54 036 500 €)",
+                    "lapset": [
+                        {
+                            "id": "palv_as_seteli",
+                            "nimi": "Palvelusetelit",
+                            "arvo": 31.2,
+                            "lahde": "Sivistyslautakunta palvelusetelit s.165 (31 200 000 €)"
+                        },
+                        {
+                            "id": "palv_as_muut",
+                            "nimi": "Muut asiakaspalvelut",
+                            "arvo": 22.8,
+                            "lahde": "liite 9 (asiakaspalvelut 54,0 − palvelusetelit 31,2)"
+                        }
+                    ]
+                },
+                {
+                    "id": "palv_muut",
+                    "nimi": "Muiden palvelujen ostot",
+                    "arvo": 198.5,
+                    "lahde": "Liite 9 s.272 (198 434 677 €, pyöristetty tasaamaan summa)",
+                    "lapset": [
+                        {
+                            "id": "palv_muut_siv",
+                            "nimi": "Sivistyspalvelut",
+                            "arvo": 69.2,
+                            "arvio": true,
+                            "lahde": "Sivistyslautakunta muut palvelujen ostot (ulkoiset) s.165"
+                        },
+                        {
+                            "id": "palv_muut_liike",
+                            "nimi": "Liikelaitokset (pääosin Tilapalvelut)",
+                            "arvo": 83.7,
+                            "arvio": true,
+                            "lahde": "liikelaitosten palvelujen ostot yht. (Tilapalvelut 75,1 + muut 8,6)"
+                        },
+                        {
+                            "id": "palv_muut_hykl",
+                            "nimi": "Hyvinvointi, kulttuuri ja liikunta",
+                            "arvo": 18.3,
+                            "arvio": true,
+                            "lahde": "HYKL muut palvelujen ostot (ulkoiset) s.183"
+                        },
+                        {
+                            "id": "palv_muut_yhd",
+                            "nimi": "Yhdyskunta ja ympäristö",
+                            "arvo": 20.0,
+                            "arvio": true,
+                            "lahde": "yhdyskuntalautakunnan käyttötalous + joukkoliikenne (arvio)"
+                        },
+                        {
+                            "id": "palv_muut_hall",
+                            "nimi": "Hallinto, ICT ja muut",
+                            "arvo": 7.3,
+                            "arvio": true,
+                            "lahde": "kaupunginhallitus ja konsernihallinto (arvio)"
+                        }
+                    ]
+                }
+            ]
         },
         {
             "id": "avust",
             "nimi": "Avustukset",
             "arvo": 50.5,
             "luokka": "meno",
-            "lahde": "Ulkoiset toimintakulut s.55"
+            "lahde": "Ulkoiset toimintakulut s.55",
+            "lapset": [
+                {
+                    "id": "avust_tyott",
+                    "nimi": "Työttömyysturvan kuntaosuus",
+                    "arvo": 23.8,
+                    "lahde": "Toimintakertomus s.17 (23,8 milj. €, laski 24,6 M€:sta)"
+                },
+                {
+                    "id": "avust_yht",
+                    "nimi": "Avustukset yhteisöille",
+                    "arvo": 7.4,
+                    "arvio": true,
+                    "lahde": "HYKL yhteisötoiminnan avustukset 3,3 M€ + KH ja muut (arvio)"
+                },
+                {
+                    "id": "avust_muut",
+                    "nimi": "Muut avustukset",
+                    "arvo": 19.3,
+                    "arvio": true,
+                    "lahde": "sivistys 10,4 M€ (kotikuntakorvaukset ym.) + muut (arvio)"
+                }
+            ]
         },
         {
             "id": "aineet",
             "nimi": "Aineet ja tarvikkeet",
             "arvo": 50.9,
             "luokka": "meno",
-            "lahde": "Ulkoiset toimintakulut s.55 (aineet, tarvikkeet ja tavarat)"
+            "lahde": "Ulkoiset toimintakulut s.55 (aineet, tarvikkeet ja tavarat 50 857)"
         },
         {
             "id": "vuokrat",
             "nimi": "Vuokrat ja muut",
             "arvo": 27.4,
             "luokka": "meno",
-            "lahde": "Ulkoiset toimintakulut s.55 (vuokrakulut 24,7 + muut 2,7)"
+            "lahde": "Ulkoiset toimintakulut s.55 (vuokrakulut 24 699 + muut toimintakulut 2 686)"
         },
         {
             "id": "invest",
             "nimi": "Investoinnit",
             "arvo": 199.2,
             "luokka": "rahoitus",
-            "lahde": "Rahoituslaskelma (investointimenot)"
+            "lahde": "Rahoituslaskelma (investointimenot 199 206)",
+            "lapset": [
+                {
+                    "id": "inv_talo",
+                    "nimi": "Talonrakennus",
+                    "arvo": 90.5,
+                    "arvio": true,
+                    "lahde": "Rakennusomaisuuden taseyksikkö/Tilapalvelut 86,6 M€ + HYKL liikuntarakentaminen 3,6 M€ + yhdyskunta rakennukset 0,3 M€"
+                },
+                {
+                    "id": "inv_kadut",
+                    "nimi": "Kadut, liikenne ja vesihuolto",
+                    "arvo": 83.9,
+                    "arvio": true,
+                    "lahde": "yhdyskunta kadut+erilliskohteet 68,3 M€ + Oulun Vesi 15,4 M€; suurimmat: baanaverkko 5,0, Poikkimaantie 3,4, katuvalaistus 2,7"
+                },
+                {
+                    "id": "inv_koneet",
+                    "nimi": "Koneet, kalusto ja ICT",
+                    "arvo": 12.5,
+                    "arvio": true,
+                    "lahde": "Digi+ICT 4,4 + sivistys 4,2 + HYKL kalustot 2,2 + KH 1,3 + yhdyskunta 0,2 M€"
+                },
+                {
+                    "id": "inv_maa",
+                    "nimi": "Maa-alueet ja muut",
+                    "arvo": 12.3,
+                    "arvio": true,
+                    "lahde": "yhdyskunta maanhankinta (13 150 TA → 12 302 TP) + metsänuudistus + pilaantuneet maat"
+                }
+            ]
         },
         {
             "id": "korkokulut",
             "nimi": "Korko- ja rahoituskulut",
             "arvo": 16.9,
             "luokka": "meno",
-            "lahde": "Tuloslaskelma (korkokulut 16,6 + muut 0,3)"
+            "lahde": "Tuloslaskelma (korkokulut 16,6 + muut rahoituskulut 0,3)"
         },
         {
             "id": "lyhennys",
