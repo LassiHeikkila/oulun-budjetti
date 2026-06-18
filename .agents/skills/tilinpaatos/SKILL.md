@@ -1,5 +1,5 @@
 ---
-name: oulu-tilinpaatos-sankey
+name: tilinpaatos
 description: Kaivaa Oulun kaupungin tilinpäätös-PDF:stä rahavirtatiedot (tulot ja menot) ja tuottaa niistä Sankey-kaavion datatiedoston (JSON) puumuodossa. Käytä tätä taitoa aina kun käyttäjä antaa Oulun (tai vastaavan kunnan) tilinpäätös-PDF:n ja haluaa siitä rahavirta-, tulo-/meno- tai budjettivisualisoinnin, Sankey-kaavion, tai pyytää "kaivamaan luvut", "tekemään JSONin uudelle vuodelle", "erottelemaan tulot ja menot" tai "näyttämään mihin rahat menevät". Käytä myös kun käyttäjä haluaa eritellä alakategorioita (esim. mistä veroista verotulot koostuvat, mihin palkat tai palvelujen ostot jakautuvat) tai lisätä uuden vuoden olemassa olevaan vuosivertailuun. Soveltuu erityisesti sote-uudistuksen (2023→) jälkeisiin tilinpäätöksiin.
 ---
 
